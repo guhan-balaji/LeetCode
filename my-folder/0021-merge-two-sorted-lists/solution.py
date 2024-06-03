@@ -1,40 +1,39 @@
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-class Solution(object):
-    def mergeTwoLists(self, list1, list2):
-        if not list1 or not list2:
-            return list1 if list1 else list2
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        merged_list = cur = None
 
-        head = tail = None
-        while list1 or list2:
-            if not list1 or not list2:
-                tail.next = list1 if list1 else list2
-                return head
-            
-            if list1.val < list2.val:
-                if not head:
-                    head = list1
-                    tail = head
+        while list1 and list2:
+            if list1.val <= list2.val:
+                if not merged_list:
+                    cur = merged_list = list1
                 else:
-                    tail.next = list1
-                    tail = tail.next
+                    cur.next = list1
+                    cur = cur.next
                 list1 = list1.next
             else:
-                if not head:
-                    head = list2
-                    tail = head
+                if not merged_list:
+                    cur = merged_list = list2
                 else:
-                    tail.next = list2
-                    tail = tail.next
+                    cur.next = list2
+                    cur = cur.next
                 list2 = list2.next
-        return head
+            
+        if list1:
+            if not merged_list:
+                merged_list = list1
+            else:
+                cur.next = list1
         
-        """
-        :type list1: Optional[ListNode]
-        :type list2: Optional[ListNode]
-        :rtype: Optional[ListNode]
-        """
+        if list2:
+            if not merged_list:
+                merged_list = list2
+            else:
+                cur.next = list2
+        
+        return merged_list
         
