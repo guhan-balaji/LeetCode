@@ -1,25 +1,19 @@
-class Solution(object):
-    def isValid(self, s):
+class Solution:
+    def isValid(self, s: str) -> bool:
         stack = []
-        p_map = {
-            '(': ')',
-            '[': ']',
-            '{': '}',
-        }
+        opening_brackets = ['(', '{', '[']
+        
         for c in s:
-            if c in {'(', '[', '{'}:
+            if c in opening_brackets:
                 stack.append(c)
             else:
                 if not stack:
-                    return False
-                    
-                p = stack.pop()
-                if p_map[p] != c:
-                    return False
-        
-        return len(stack) == 0
-        """
-        :type s: str
-        :rtype: bool
-        """
-        
+                    return False 
+                b = stack.pop()
+
+                if b == '(' and c != ')' or \
+                   b == '{' and c != '}' or \
+                   b == '[' and c != ']':
+                   return False
+
+        return len(stack) == 0                    
