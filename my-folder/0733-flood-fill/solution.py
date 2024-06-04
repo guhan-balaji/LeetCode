@@ -1,29 +1,20 @@
-class Solution(object):
-    def floodFill(self, image, sr, sc, color):
-        self.rec_fill(image, sr, sc, color, image[sr][sc])
-        return image
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        return self.rec_fill(image, sr, sc, image[sr][sc], color)
 
-        """
-        :type image: List[List[int]]
-        :type sr: int
-        :type sc: int
-        :type color: int
-        :rtype: List[List[int]]
-        """
-    
-    def rec_fill(self, image, sr, sc, color, org):
-        if sr < 0 or sc < 0 or sr >= len(image) or sc >= len(image[0]):
+
+    def rec_fill(self, img: List[List[int]], r: int, c: int, org_color: int, new_color: int) -> Optional[List[List[int]]]:
+        if r >= len(img) or c >= len(img[0]) or r < 0 or c < 0:
             return
+        
+        elif img[r][c] == org_color and img[r][c] != new_color:
+            img[r][c] = new_color
 
-        if image[sr][sc] == color or image[sr][sc] != org:
-            return
+            self.rec_fill(img, r - 1, c, org_color, new_color)
+            self.rec_fill(img, r, c - 1, org_color, new_color)
+            self.rec_fill(img, r, c + 1, org_color, new_color)
+            self.rec_fill(img, r + 1, c, org_color, new_color)
 
-        if image[sr][sc] == org:
-            image[sr][sc] = color
-
-
-        self.rec_fill(image, sr, sc - 1, color, org)
-        self.rec_fill(image, sr, sc + 1, color, org)
-        self.rec_fill(image, sr - 1, sc, color, org)
-        self.rec_fill(image, sr + 1, sc, color, org)
-
+        return img
+        
+        
