@@ -8,14 +8,18 @@ class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         if not root:
             return True
-        elif math.fabs(self.get_height(root.left, 1) - self.get_height(root.right, 1)) < 2:
-            return self.isBalanced(root.left) and self.isBalanced(root.right)
         else:
-            return False
-    
-    
-    def get_height(self, root: Optional[TreeNode], height: int) -> int:
-        if not root:
+            left_h = self.get_height(root.left, 1)
+            right_h = self.get_height(root.right, 1)
+        
+            if abs(left_h - right_h) > 1:
+                return False
+        
+        return self.isBalanced(root.left) and self.isBalanced(root.right)
+
+    def get_height(self, node: Optional[TreeNode], height: int) -> int:
+        if not node:
             return height
         else:
-            return max(self.get_height(root.left, height + 1), self.get_height(root.right, height + 1))
+            return max(self.get_height(node.left, height + 1),
+                       self.get_height(node.right, height + 1))
