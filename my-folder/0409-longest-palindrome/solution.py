@@ -1,17 +1,15 @@
 class Solution:
     def longestPalindrome(self, s: str) -> int:
-        c_count = Counter(s)
-        
+        word_count = Counter(s)
+        first_odd = True
         result = 0
-        is_first_odd_char = True
-
-        for (_, v) in c_count.items():
+        for (_, v) in word_count.items():
             if v % 2 == 0:
                 result += v
+            elif first_odd:
+                result += v
+                first_odd = False
             else:
-                result += v if is_first_odd_char else v - 1
-                is_first_odd_char = False
+                result += v - 1
         
         return result
-
-
