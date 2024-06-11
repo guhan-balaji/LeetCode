@@ -9,28 +9,22 @@ class Solution:
         if not root:
             return []
         else:
-            res = [[root.val]]
-            parents = [root]
+            
+            parents_q = deque([root])
+            res = []
 
-        while parents:
-            children, children_vals = self.get_immediate_children(parents)
-            if children_vals:
-                res.append(children_vals)
-            parents = children
-        
-        return res
-    
-    def get_immediate_children(self, parents: List[Optional[TreeNode]]) -> (List[Optional[TreeNode]], List[Optional[int]]):
-        parents = deque(parents)
-        children = []
-        children_vals= []
-        while parents:
-            parent = parents.popleft()
-            if parent.left:
-                children.append(parent.left)
-                children_vals.append(parent.left.val)
-            if parent.right:
-                children.append(parent.right)
-                children_vals.append(parent.right.val)
-        
-        return (children, children_vals)
+            while parents_q:
+                res_level = []
+                children_q = []
+
+                for parent in parents_q:
+                    res_level.append(parent.val)
+                    if parent.left:
+                        children_q.append(parent.left)
+                    if parent.right:
+                        children_q.append(parent.right)
+                
+                res.append(res_level)
+                parents_q = children_q
+
+            return res
