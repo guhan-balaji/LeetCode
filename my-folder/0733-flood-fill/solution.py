@@ -1,20 +1,24 @@
 class Solution:
     def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
-        return self.rec_fill(image, sr, sc, image[sr][sc], color)
+        def flood_fill(image: List[List[int]], r: int, c: int, color: int, start_color: int):
+            if r < 0 or c < 0 or r >= len(image) or c >= len(image[0]):
+                return
+            
+            elif image[r][c] == color:
+                return
+            
+            elif image[r][c] == start_color:
+                image[r][c] = color
+                
+                flood_fill(image, r - 1, c, color, start_color)
+                flood_fill(image, r + 1, c, color, start_color)
+                flood_fill(image, r, c - 1, color, start_color)
+                flood_fill(image, r, c + 1, color, start_color)
+                return
+            
+            else:
+                return
 
-
-    def rec_fill(self, img: List[List[int]], r: int, c: int, org_color: int, new_color: int) -> Optional[List[List[int]]]:
-        if r >= len(img) or c >= len(img[0]) or r < 0 or c < 0:
-            return
-        
-        elif img[r][c] == org_color and img[r][c] != new_color:
-            img[r][c] = new_color
-
-            self.rec_fill(img, r - 1, c, org_color, new_color)
-            self.rec_fill(img, r, c - 1, org_color, new_color)
-            self.rec_fill(img, r, c + 1, org_color, new_color)
-            self.rec_fill(img, r + 1, c, org_color, new_color)
-
-        return img
-        
+        flood_fill(image, sr, sc, color, image[sr][sc])
+        return image
         
