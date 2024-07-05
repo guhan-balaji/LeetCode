@@ -1,15 +1,9 @@
-class Solution(object):
-    def twoSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        
-        num_to_idx = {}
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        nums_to_idx: Dict[int, int] = dict()
 
         for idx, num in enumerate(nums):
-            if target - num in num_to_idx:
-                return [idx, num_to_idx[target - num]]
+            if target - num in nums_to_idx:
+                return [idx, nums_to_idx[target - num]]
             else:
-                num_to_idx[num] = idx
+                nums_to_idx[num] = idx
