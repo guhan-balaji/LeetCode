@@ -6,7 +6,7 @@ class Solution:
         start, end = 1, n
 
         while start < end:
-            mid = start + (end - start) // 2
+            mid = (start + end) // 2
 
             if isBadVersion(mid):
                 end = mid
@@ -14,3 +14,4 @@ class Solution:
                 start = mid + 1
         
         return start
+
