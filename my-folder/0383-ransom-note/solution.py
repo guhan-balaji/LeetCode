@@ -1,11 +1,10 @@
 class Solution:
     def canConstruct(self, ransomNote: str, magazine: str) -> bool:
-        m_counter = Counter(magazine)
+        rn_c = Counter(ransomNote)
+        m_c = Counter(magazine)
 
-        for c in ransomNote:
-            if c not in m_counter or m_counter[c] < 1:
+        for k, v in rn_c.items():
+            if k not in m_c or v > m_c[k]:
                 return False
-            else:
-                m_counter[c] -= 1
-            
+        
         return True
