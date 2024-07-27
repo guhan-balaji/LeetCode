@@ -1,27 +1,26 @@
 class MinStack:
 
     def __init__(self):
-        self.stack = []
+        self.stk: List[Tuple[int, int]] = []
 
     def push(self, val: int) -> None:
-        min_stack = None
-        if not self.stack:
-            min_stack = val
+        if not self.stk:
+            self.stk.append((val, val))
         else:
-            min_stack = min(val, self.getMin())
-
-        self.stack.append((val, min_stack))
+            min_stk = self.getMin() if self.getMin() < val else val
+            self.stk.append((val, min_stk))
 
     def pop(self) -> None:
-        self.stack.pop()
+        self.stk.pop()
 
     def top(self) -> int:
-        (top_val, _) = self.stack[-1]
-        return top_val
+        (val, _) = self.stk[-1]
+        return val        
 
     def getMin(self) -> int:
-        (_, min_stack) = self.stack[-1]
-        return min_stack
+        (_, min_stk) = self.stk[-1]
+        return min_stk
+
 
 # Your MinStack object will be instantiated and called as such:
 # obj = MinStack()
