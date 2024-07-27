@@ -1,29 +1,22 @@
-from typing import Dict, Set
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        pre_reqs = {i: [] for i in range(numCourses)}
+        in_degrees = [0] * numCourses
+        graph = {i: [] for i in range(numCourses)}
+        q = deque([])
 
-        for [k, v] in prerequisites:
-            pre_reqs[k].append(v)
+        for [course, pre] in prerequisites:
+            in_degrees[course] += 1
+            graph[pre].append(course)
+
+        for course, in_degree in enumerate(in_degrees):
+            if in_degree == 0:
+                q.append(course)
         
-        for node in pre_reqs.keys():
-            if not self.dfs(pre_reqs, node, set()): return False
+        while q:
+            pre = q.popleft()
 
-        return True
-
-    def dfs(self, pre_reqs: Dict[int, List[int]], cur: int, visited: Set[int]) -> bool:  
-        if cur in visited:
-            return False
+            for course in graph[pre]:
+                in_degrees[course] -= 1
+                if in_degrees[course] == 0 : q.append(course)
         
-        if not pre_reqs[cur]:
-            return True
-
-        visited.add(cur)
-        for node in pre_reqs[cur]:
-            if self.dfs(pre_reqs, node, visited):
-                pre_reqs[cur].remove(node)
-            else:
-                return False
-        visited.remove(cur)
-        return True
-
+        return sum(in_degrees) == 0
